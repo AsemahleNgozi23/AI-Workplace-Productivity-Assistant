@@ -75,7 +75,7 @@ export const Route = createFileRoute("/api/chat")({
                 await supabase.from("messages").insert({
                   thread_id: threadId,
                   role: lastMsg.role,
-                  content: lastMsg.content ?? textContent,
+                  content: textContent,
                   parts: lastMsg.parts,
                 });
               }
