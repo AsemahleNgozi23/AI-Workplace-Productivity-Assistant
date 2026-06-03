@@ -63,17 +63,19 @@ export const Route = createFileRoute("/api/chat")({
 
         return result.toUIMessageStreamResponse({
           originalMessages: messages as UIMessage[],
-          onFinish: async ({ response }) => {
+          onFinish: async ({ messages: responseMessages }) => {
             try {
-              const assistantMessages = response.messages;
-              if (assistantMessages.length > 0) {
-                const lastMsg = assistantMessages[assistantMessages.length - 1];
+              if (responseMessages.length > 0) {
+                const lastMsg = responseMessages[responseMessages.length - 1];
+                const textContent = lastMsg.parts
+                  .map((p: { type: string; text?: string }) =>
+                    p.type === "text" ? p.text : ""
+                  )
+                  .join("");
                 await supabase.from("messages").insert({
                   thread_id: threadId,
                   role: lastMsg.role,
-                  content:
-                    lastMsg.content ??
-                    lastMsg.parts.map((p) => (p.type === "text" ? p.text : "")).join(""),
+                  content: lastMsg.content ?? textContent,
                   parts: lastMsg.parts,
                 });
               }
