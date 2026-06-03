@@ -49,13 +49,18 @@ function ChatThread() {
   });
 
   const initialMessages: UIMessage[] =
-    messagesData?.messages?.map((m) => ({
-      id: m.id,
-      role: m.role as "user" | "assistant",
-      content: m.content,
-      parts: m.parts ?? [{ type: "text", text: m.content }],
-      createdAt: new Date(m.created_at),
-    })) ?? [];
+    messagesData?.messages?.map((m) => {
+      const parts: UIMessage["parts"] = Array.isArray(m.parts)
+        ? (m.parts as UIMessage["parts"])
+        : [{ type: "text", text: m.content }];
+      return {
+        id: m.id,
+        role: m.role as "user" | "assistant",
+        content: m.content,
+        parts,
+        createdAt: new Date(m.created_at),
+      };
+    }) ?? [];
 
   const chatTransport = new DefaultChatTransport({ api: "/api/chat" });
 
