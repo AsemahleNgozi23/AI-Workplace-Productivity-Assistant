@@ -11,6 +11,23 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { AppSidebar } from "@/components/app-sidebar";
+import { ThemeProvider, useTheme } from "@/components/theme-provider";
+import { Sun, Moon } from "lucide-react";
+import { ResponsibleAIDisclaimer } from "@/components/responsible-ai-disclaimer";
+
+function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme();
+  return (
+    <button
+      onClick={toggleTheme}
+      className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-foreground transition-colors hover:bg-accent"
+      aria-label="Toggle theme"
+    >
+      {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+    </button>
+  );
+}
 
 function NotFoundComponent() {
   return (
@@ -77,14 +94,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "AI Workplace Productivity Assistant" },
+      { name: "description", content: "AI-powered tools to boost workplace productivity — email generation, meeting summaries, task planning, research, and intelligent chat." },
+      { name: "author", content: "AI Workbench" },
+      { property: "og:title", content: "AI Workplace Productivity Assistant" },
+      { property: "og:description", content: "AI-powered tools to boost workplace productivity." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
@@ -118,8 +134,29 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <ThemeProvider>
+        <AppLayout />
+      </ThemeProvider>
     </QueryClientProvider>
+  );
+}
+
+function AppLayout() {
+  return (
+    <div className="min-h-screen flex w-full" style={{ "--sidebar-width": "240px" } as React.CSSProperties}>
+      <AppSidebar />
+      <div className="ml-[var(--sidebar-width)] flex flex-1 flex-col min-w-0">
+        <header className="flex h-14 items-center justify-between border-b border-border bg-card px-6">
+          <h1 className="text-sm font-medium text-muted-foreground">
+            AI Workplace Productivity Assistant
+          </h1>
+          <ThemeToggle />
+        </header>
+        <main className="flex-1 bg-background">
+          <Outlet />
+        </main>
+        <ResponsibleAIDisclaimer />
+      </div>
+    </div>
   );
 }
