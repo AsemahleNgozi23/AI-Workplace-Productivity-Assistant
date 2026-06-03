@@ -62,7 +62,10 @@ function ChatThread() {
       };
     }) ?? [];
 
-  const chatTransport = new DefaultChatTransport({ api: "/api/chat" });
+  const chatTransport = new DefaultChatTransport({
+    api: "/api/chat",
+    body: { threadId },
+  });
 
   const { messages, sendMessage, status } = useChat({
     id: threadId,
