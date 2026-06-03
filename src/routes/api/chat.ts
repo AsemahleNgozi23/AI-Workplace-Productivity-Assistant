@@ -56,9 +56,27 @@ export const Route = createFileRoute("/api/chat")({
 
         const gateway = createLovableAiGatewayProvider(key);
         const model = gateway("google/gemini-3-flash-preview");
+
+        // Save the last user message before streaming
+        const uiMessages = messages as UIMessage[];
+        const lastUserMsg = uiMessages[uiMessages.length - 1];
+        if (lastUserMsg?.role === "user") {
+          const userText = lastUserMsg.parts
+            .map((p: { type: string; text?: string }) =>
+              p.type === "text" ? p.text : ""
+            )
+            .join("");
+          await supabase.from("messages").insert({
+            thread_id: threadId,
+            role: "user",
+            content: userText,
+            parts: lastUserMsg.parts,
+          });
+        }
+
         const result = streamText({
           model,
-          messages: await convertToModelMessages(messages as UIMessage[]),
+          messages: await convertToModelMessages(uiMessages),
         });
 
         return result.toUIMessageStreamResponse({
