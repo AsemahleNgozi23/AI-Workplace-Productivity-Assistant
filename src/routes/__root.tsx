@@ -143,7 +143,7 @@ function RootComponent() {
 
 function AppLayout() {
   return (
-    <div className="min-h-screen flex w-full">
+    <div className="min-h-screen flex w-full" style={{ "--sidebar-width": "240px" } as React.CSSProperties}>
       <AppSidebar />
       <div className="ml-[var(--sidebar-width)] flex flex-1 flex-col min-w-0">
         <header className="flex h-14 items-center justify-between border-b border-border bg-card px-6">
