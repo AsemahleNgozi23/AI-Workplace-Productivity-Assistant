@@ -98,9 +98,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "AI-powered tools to boost workplace productivity — email generation, meeting summaries, task planning, research, and intelligent chat." },
       { name: "author", content: "AI Workbench" },
       { property: "og:title", content: "AI Workplace Productivity Assistant" },
-      { property: "og:description", content: "AI-powered tools to boost workplace productivity." },
+      { property: "og:description", content: "AI-powered tools to boost workplace productivity — email generation, meeting summaries, task planning, research, and intelligent chat." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "AI Workplace Productivity Assistant" },
+      { name: "twitter:description", content: "AI-powered tools to boost workplace productivity — email generation, meeting summaries, task planning, research, and intelligent chat." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/374f30ef-a34c-4d9b-99b7-f9e9e47124bc/id-preview-623ad796--118943aa-e206-447d-a353-757bcde28b1d.lovable.app-1780479630925.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/374f30ef-a34c-4d9b-99b7-f9e9e47124bc/id-preview-623ad796--118943aa-e206-447d-a353-757bcde28b1d.lovable.app-1780479630925.png" },
     ],
     links: [
       {
